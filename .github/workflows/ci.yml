@@ -1,0 +1,46 @@
+name: CI Workflow
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout do código
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Configuração do Python
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.12'
+
+      # Instalação das dependências
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # Rodar os testes
+      - name: Run tests
+        run: |
+          pytest
+
+      # Construir a imagem Docker
+      - name: Build Docker image
+        run: |
+          docker build -t flask-api .
+
+      # Testar a aplicação dentro do Docker
+      - name: Run Docker container
+        run: |
+          docker run -d -p 1313:1313 flask-api
+          sleep 5  # Espera a aplicação iniciar
+          curl --fail localhost:1313 || exit 1  # Verifica se a aplicação está funcionando
