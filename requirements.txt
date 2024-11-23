@@ -1,6 +1,6 @@
-Flask==2.3.2
+Flask>=2.2.0
+Werkzeug>=2.2.3
 Flask-JWT-Extended==4.4.4
 Flask-Swagger-UI==4.11.1
-werkzeug==2.0.3
 pytest
 pytest-flask
