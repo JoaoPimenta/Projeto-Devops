@@ -1,6 +1,6 @@
 import json
 import pytest
-from app import app  # Certifique-se de que 'app' é o nome correto do arquivo de sua aplicação
+from app import app
 
 @pytest.fixture
 def client():
